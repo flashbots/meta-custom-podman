@@ -1,0 +1,50 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          podman-init
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Initialize Podman storage configuration
+### END INIT INFO
+
+case "$1" in
+  start)
+    echo "Mounting cgroup v2..."
+    mount -t cgroup2 none /sys/fs/cgroup
+
+    echo "Initializing Podman storage configuration..."
+    
+    # Ensure necessary directories exist
+    mkdir -p /etc/containers
+    mkdir -p /var/lib/containers/storage
+    
+    # Modify storage.conf
+    if [ -f /etc/containers/storage.conf ]; then
+      sed -i 's/^driver = .*/driver = "vfs"/' /etc/containers/storage.conf
+    else
+      echo '[storage]' > /etc/containers/storage.conf
+      echo 'driver = "vfs"' >> /etc/containers/storage.conf
+      echo 'runroot = "/run/containers/storage"' >> /etc/containers/storage.conf
+      echo 'graphroot = "/var/lib/containers/storage"' >> /etc/containers/storage.conf
+    fi
+    
+    # Remove existing storage
+    rm -rf /var/lib/containers/storage
+    
+    echo "Podman storage configuration initialized."
+    ;;
+  stop)
+    echo "Nothing to do for stop."
+    ;;
+  restart|reload)
+    "$0" stop
+    "$0" start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
