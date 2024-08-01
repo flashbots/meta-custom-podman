@@ -1,0 +1,24 @@
+diff --git a/isolation.c b/isolation.c
+index 4956d7e..99e9e3e 100644
+--- a/isolation.c
++++ b/isolation.c
+@@ -331,10 +331,15 @@ int isolate_prefork(const struct ctx *c)
+ 		return -errno;
+ 	}
+
+-	if (syscall(SYS_pivot_root, ".", ".")) {
+-		err_perror("Failed to pivot_root() into empty tmpfs");
+-		return -errno;
+-	}
++	// If running the system fully in RAM (initramfs),
++	// pivot_root is not available
++	// chroot cannot be used as it requires privileged access
++	// so we do nothing instead
++
++	// if (syscall(SYS_pivot_root, ".", ".")) {
++	// 	err_perror("Failed to pivot_root() into empty tmpfs");
++	// 	return -errno;
++	// }
+
+ 	if (umount2(".", MNT_DETACH | UMOUNT_NOFOLLOW)) {
+ 		err_perror("Failed to unmount original root filesystem");
