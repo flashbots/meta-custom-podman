@@ -32,6 +32,10 @@ case "$1" in
     # Remove existing storage
     rm -rf /var/lib/containers/storage
     
+    # Setting TUN device permissions to enable rootless execution
+    echo "Setting TUN device permissions"
+    chmod 0666 /dev/net/tun
+
     echo "Podman storage configuration initialized."
     ;;
   stop)
