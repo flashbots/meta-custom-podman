@@ -16,8 +16,8 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/containers.conf ${D}${sysconfdir}/containers/containers.conf
 }
 
-DEPENDS += "pasta"
-RDEPENDS:${PN} += "pasta"
+DEPENDS += "pasta shadow"
+RDEPENDS:${PN} += "pasta shadow"
 
 FILES:${PN} += "${sysconfdir}/init.d/podman-init \
                 ${sysconfdir}/containers/containers.conf"
