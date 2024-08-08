@@ -21,3 +21,4 @@ RDEPENDS:${PN} += "pasta shadow"
 
 FILES:${PN} += "${sysconfdir}/init.d/podman-init \
                 ${sysconfdir}/containers/containers.conf"
+                

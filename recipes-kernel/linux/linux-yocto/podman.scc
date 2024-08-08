@@ -1,0 +1,3 @@
+define KFEATURE_DESCRIPTION "Enabling kernal configs for Podman"
+
+kconf hardware podman.cfg
