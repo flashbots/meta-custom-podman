@@ -6,7 +6,7 @@ SRC_URI += "file://podman-init \
 inherit update-rc.d
 
 INITSCRIPT_NAME = "podman-init"
-INITSCRIPT_PARAMS = "defaults 99"
+INITSCRIPT_PARAMS = "defaults 60"
 
 do_install:append() {
     install -d ${D}${sysconfdir}/init.d
@@ -21,4 +21,3 @@ RDEPENDS:${PN} += "pasta shadow"
 
 FILES:${PN} += "${sysconfdir}/init.d/podman-init \
                 ${sysconfdir}/containers/containers.conf"
-                
