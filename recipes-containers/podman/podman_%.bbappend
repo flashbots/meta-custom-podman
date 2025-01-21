@@ -8,6 +8,13 @@ inherit update-rc.d
 INITSCRIPT_NAME = "podman-init"
 INITSCRIPT_PARAMS = "defaults 60"
 
+INSANE_SKIP:${PN} += "already-stripped"
+GOBUILDFLAGS:append = " -trimpath"
+
+do_compile:prepend() {
+    export EXTRA_LDFLAGS="-s -w -buildid="
+}
+
 do_install:append() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/podman-init ${D}${sysconfdir}/init.d/podman-init
