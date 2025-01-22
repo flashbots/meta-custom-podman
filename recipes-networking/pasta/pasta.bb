@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/:"
 
-SRC_URI = "git://passt.top/passt;branch=master;protocol=https \
+SRC_URI = "git://passt.top/passt;branch=master;protocol=git \
            file://no-pivot-root.patch"
 
 PV = "0+git${SRCPV}"
