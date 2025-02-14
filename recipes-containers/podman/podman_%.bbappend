@@ -36,10 +36,11 @@ do_compile() {
     export NATIVE_GOOS=${BUILD_GOOS}
     export NATIVE_GOARCH=${BUILD_GOARCH}
 
-    export BUILDFLAGS="-trimpath -ldflags '-s -w -buildid='"
+    export BUILDFLAGS="-trimpath -buildvcs=false -ldflags '-s -w -buildid='"
     oe_runmake NATIVE_GOOS=${BUILD_GOOS} NATIVE_GOARCH=${BUILD_GOARCH} BUILDTAGS="${BUILDTAGS}" rootlessport
     unset BUILDFLAGS
 
+    export GOFLAGS="-trimpath -buildvcs=false"
     oe_runmake NATIVE_GOOS=${BUILD_GOOS} NATIVE_GOARCH=${BUILD_GOARCH} BUILDTAGS="${BUILDTAGS}"
 }
 
