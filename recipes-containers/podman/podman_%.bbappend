@@ -1,7 +1,8 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/:"
 
 SRC_URI += "file://podman-init \
-            file://containers.conf"
+            file://containers.conf \
+            file://seccomp.json"
 
 inherit update-rc.d
 
@@ -50,10 +51,12 @@ do_install:append() {
 
     install -d ${D}${sysconfdir}/containers
     install -m 0644 ${WORKDIR}/containers.conf ${D}${sysconfdir}/containers/containers.conf
+    install -m 0644 ${WORKDIR}/seccomp.json ${D}${sysconfdir}/containers/seccomp.json
 }
 
 DEPENDS += "pasta shadow"
 RDEPENDS:${PN} += "pasta shadow"
 
 FILES:${PN} += "${sysconfdir}/init.d/podman-init \
-                ${sysconfdir}/containers/containers.conf"
+                ${sysconfdir}/containers/containers.conf \
+                ${sysconfdir}/containers/seccomp.json"
